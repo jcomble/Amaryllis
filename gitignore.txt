@@ -1,0 +1,4 @@
+*.txt
+.classpath
+.project
+.setting/

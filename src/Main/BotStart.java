@@ -3,6 +3,7 @@ package Main;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 
 import javax.security.auth.login.LoginException;
 
@@ -26,10 +27,11 @@ public class BotStart {
 		return null;
 	}
 	
-    public static void main(String[] args) throws LoginException {
+    public static void main(String[] args) throws LoginException, ClassNotFoundException, SQLException {
+    	SQLRequest req = new SQLRequest();
     	String token = readString("src/Main/token.txt");
         JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES)
-            .addEventListeners(new Commands())
+            .addEventListeners(new Commands(req))
             .setActivity(Activity.playing("Yamete Kudasai!"))
             .build();
     }

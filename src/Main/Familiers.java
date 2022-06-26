@@ -42,7 +42,7 @@ public class Familiers {
 		embed.setTitle("Familiers");
 		for (int iterator = 0; iterator < list_emojis.length; iterator++) {
 			int experience = res.getInt("expf" + String.valueOf(iterator + 1));
-			String text = experience == -1 ? "-" : "niv. 1, 10/10 PV, 50/50 PM";
+			String text = experience == -1 ? "-" : "niv. 1\n10/10 PV\n50/50 PM";
 			embed.addField(list_emojis[iterator], text, true);
 		}
 		embed.setFooter("?familiers");

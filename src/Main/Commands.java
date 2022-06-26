@@ -68,7 +68,7 @@ public class Commands extends ListenerAdapter {
 			if (!res.next()) {
 				try {
 					this.req.update("INSERT INTO Carte VALUES (" + guild.getId().toString() + ", " + user.getId().toString() + ", 'Mario', NULL, NULL, NULL, 1, 0, NULL);");
-					this.req.update("INSERT INTO Familiers VALUES (" + guild.getId().toString() + ", " + user.getId().toString() + ", -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 1);");
+					this.req.update("INSERT INTO Familiers VALUES (" + guild.getId().toString() + ", " + user.getId().toString() + ", 0, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 1);");
 					this.req.update("INSERT INTO Inventaire VALUES (" + guild.getId().toString() + ", " + user.getId().toString() + ", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);");
 				} catch (SQLException e) {
 					e.printStackTrace();

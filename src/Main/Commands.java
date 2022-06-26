@@ -141,6 +141,13 @@ public class Commands extends ListenerAdapter {
 					e.printStackTrace();
 				}
 	        	return;
+	        case "familiers":
+	        	try {
+					Familiers familiers_command = new Familiers(channel, args, this.req, user, guild);
+				} catch (ClassNotFoundException | SQLException e) {
+					e.printStackTrace();
+				}
+	        	return;
         }
     }
 	

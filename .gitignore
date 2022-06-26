@@ -2,5 +2,5 @@
 .classpath
 .project
 .setting/
-src/Main/token.txt
-.jar
+/src/Main/token.txt
+*.jar

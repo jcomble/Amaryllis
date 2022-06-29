@@ -18,6 +18,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class Commands extends ListenerAdapter{
@@ -62,7 +63,7 @@ public class Commands extends ListenerAdapter{
     public void onMessageReceived(MessageReceivedEvent event) {
 		MessageChannel channel = event.getChannel();
 		Guild guild = event.getGuild();
-		char prefix = '?'; // � modifier
+		char prefix = '?'; // à modifier
         Message message = event.getMessage();
         User user = message.getAuthor();
         String content = message.getContentRaw();
@@ -129,5 +130,11 @@ public class Commands extends ListenerAdapter{
 	public Commands(SQLRequest req) {
 		this.req = req;
 		this.emojis = new FamiliersEmojis();
+	}
+	
+	public void onGenericMessageReaction​(GenericMessageReactionEvent event) {
+		MessageChannel channel = event.getChannel();
+		Guild guild = event.getGuild();
+        User user = event.getUser();        
 	}
 }

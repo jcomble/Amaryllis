@@ -1,28 +1,42 @@
-package Main;
+package commands;
 
-import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import Main.FamiliersEmojis;
+import Main.SQLRequest;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
-import net.dv8tion.jda.api.utils.AttachedFile;
-import net.dv8tion.jda.api.utils.AttachmentOption;
 
 public class Me {
-	private int numero_familier_actuel;
+	private MessageChannel channel;
+	private ArrayList<String> args;
+	private SQLRequest req;
+	private User user;
+	private Guild guild;
+	private Message message;
+	private FamiliersEmojis emojis;
 	
-	public Me(MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild) throws ClassNotFoundException, SQLException {
+	public Me(MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message, FamiliersEmojis emojis) {
+		this.channel = channel;
+		this.args = args;
+		this.req = req;
+		this.user = user;
+		this.guild = guild;
+		this.message = message;
+		this.emojis = emojis;
+	}
+	
+	public void build() throws ClassNotFoundException, SQLException {
 		if (args.size() != 1) {
 			channel.sendMessageFormat("`?me` seulement").queue();
 			return;
 		}
+		message.delete().queue();
 		ResultSet res = req.request("SELECT * FROM Carte WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");
 		String nom_maitre = res.getString("nom_maitre");
 		EmbedBuilder embed = new EmbedBuilder();
@@ -39,7 +53,7 @@ public class Me {
 		if (code_ami == null) {
 			code_ami = "Pas de code ami défini";
 		}
-		embed.addField("Infos Switch", "Pseudo Switch : " + pseudo_switch + "\n Code Ami : " + code_ami , true);
+		embed.addField("Infos Switch", "Pseudo Switch :\n" + pseudo_switch + "\n Code Ami :\n" + code_ami , true);
 		embed.setImage(url_maitre);
 		String fetiche = res.getString("fetiche");
 		if (fetiche == null) {
@@ -48,12 +62,12 @@ public class Me {
 		embed.setDescription(fetiche);
 		int nombre_boss = res.getInt("nombre_boss");
 		embed.addField("Grades :", "Nombre de boss vaincus : " + String.valueOf(nombre_boss), true);
+		String[] list_emojis = emojis.get_emojis();
+		int numero_familier = res.getInt("numero_familier");
+		String emoji = list_emojis[numero_familier - 1];
+		embed.addField("Familier actuel :", emoji, true);
 		embed.setFooter("?me");
-		MessageAction message = channel.sendMessageEmbeds(embed.build());
-		System.out.println(user.getId());
-		if (user.getId().equals("931339802857586700")) {
-			message.addFile(new File("src/Main/Vergil.mp3"));
-		}
-		message.queue();
+		res.close();
+		channel.sendMessageEmbeds(embed.build()).queue();
 	}
 }

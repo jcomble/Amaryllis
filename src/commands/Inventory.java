@@ -1,20 +1,39 @@
-package Main;
+package commands;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import Main.SQLRequest;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
 public class Inventory {
-	public Inventory(MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild) throws ClassNotFoundException, SQLException {
+	private MessageChannel channel;
+	private ArrayList<String> args;
+	private SQLRequest req;
+	private User user;
+	private Guild guild;
+	private Message message;
+	
+	public Inventory(MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message){
+		this.channel = channel;
+		this.args = args;
+		this.req = req;
+		this.user = user;
+		this.guild = guild;
+		this.message = message;
+	}
+	
+	public void build() throws ClassNotFoundException, SQLException {
 		if (args.size() != 1) {
 			channel.sendMessageFormat("`?inventory` seulement").queue();
 			return;
 		}
+		message.delete().queue();
 		ResultSet res = req.request("SELECT * FROM Inventaire WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");
 		EmbedBuilder embed = new EmbedBuilder();
 		embed.setTitle("Inventaire");
@@ -42,6 +61,7 @@ public class Inventory {
 		description += res.getInt("obj20") + " <:medaille3:989856380443824128>\n";
 		description += res.getInt("def") + " <a:def:989856363104579604>\n";
 		embed.setDescription(description);
+		res.close();
 		channel.sendMessageEmbeds(embed.build()).queue();
 	}
 }

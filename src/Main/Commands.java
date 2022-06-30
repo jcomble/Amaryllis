@@ -68,13 +68,12 @@ public class Commands extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
 		MessageChannel channel = event.getChannel();
 		Guild guild = event.getGuild();
-		char prefix = '?'; // à modifier
+		char prefix = '?'; // Ã  modifier
         Message message = event.getMessage();
         User user = message.getAuthor();
         String content = message.getContentRaw();
         ArrayList<String> args = getargs(content);
         try {
-        	System.out.println(message.getContentRaw());
         	ResultSet res = req.request("SELECT * FROM Carte WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");
 			if (!res.next()) {
 				req.update("INSERT INTO Carte VALUES (" + guild.getId().toString() + ", " + user.getId().toString() + ", 'Mario', NULL, NULL, NULL, 1, 0, NULL);");
@@ -86,7 +85,6 @@ public class Commands extends ListenerAdapter {
 	        	return;
 	        }
 	        String suffixe = args.get(0).substring(1);
-	        System.out.println(message.getContentRaw());
 	        switch (suffixe) {
 		        case "ping":
 		            channel.sendMessage("chocho!").queue();
@@ -120,7 +118,6 @@ public class Commands extends ListenerAdapter {
 					inventory_command.build();
 		        	return;
 		        case "familiers":
-		        	System.out.println(message.getContentRaw());
 					Familiers familiers_command = new Familiers(channel, args, req, user, guild, message, emojis);
 					familiers_command.build();
 		        	return;
@@ -149,13 +146,14 @@ public class Commands extends ListenerAdapter {
 		MessageReaction reaction = event.getReaction();
 		Emoji emoji = reaction.getEmoji();
 		try {
-			if (emoji.getType().equals(Type.UNICODE) && (emoji.getName().equals("➡️") || !emoji.getName().equals("⬅️"))) {
+			if (emoji.getType().equals(Type.UNICODE) && (emoji.getName().equals("⬅️") || emoji.getName().equals("➡️"))) {
 				ResultSet res = req.request("SELECT * FROM FamiliersEmbeds WHERE id_message = " + message.getId() + ";");
 				int page = res.getInt("page");
+				PageUpdater pageupdater = new PageUpdater(user, message, page, emoji.getName(), req, emojis, reaction);
+				pageupdater.update();
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(1);
 	}
 }

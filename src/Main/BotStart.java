@@ -30,7 +30,7 @@ public class BotStart {
     public static void main(String[] args) throws LoginException, ClassNotFoundException, SQLException {
     	SQLRequest req = new SQLRequest();
     	String token = readString("src/Main/token.txt");
-        JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS)
+        JDABuilder.createLight(token)
             .addEventListeners(new Commands(req))
             .setActivity(Activity.playing("Yamete Kudasai!"))
             .build();

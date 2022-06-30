@@ -4,3 +4,4 @@
 .setting/
 /src/Main/token.txt
 *.jar
+/bin/

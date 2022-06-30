@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.internal.entities.emoji.UnicodeEmojiImpl;
 
 public class Familiers {
 	private MessageChannel channel;
@@ -47,10 +48,13 @@ public class Familiers {
 			embed.addField(list_emojis[iterator], text, true);
 		}
 		res.close();
+		
 		channel.sendMessageEmbeds(embed.build()).queue(
 			(msg) -> {
-				msg.addReaction("⬅️").queue();
-				msg.addReaction("➡️").queue();
+				UnicodeEmojiImpl emoji = new UnicodeEmojiImpl("⬅️");
+				msg.addReaction(emoji).queue();
+				UnicodeEmojiImpl emoji2 = new UnicodeEmojiImpl("➡️");
+				msg.addReaction(emoji2).queue();
 				String message_id = msg.getId();
 				try {
 					req.update("INSERT INTO FamiliersEmbeds VALUES (" + guild.getId() + ", " + user.getId() + ", " + message_id + ", 0);");

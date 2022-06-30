@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.annotation.Nonnull;
+
 import commands.Changecasw;
 import commands.Changefetiche;
 import commands.Changepseudosw;
@@ -16,12 +18,15 @@ import commands.Renamemaster;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.entities.emoji.Emoji.Type;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-public class Commands extends ListenerAdapter{
+public class Commands extends ListenerAdapter {
 	private SQLRequest req;
 	private FamiliersEmojis emojis;
 	
@@ -68,9 +73,9 @@ public class Commands extends ListenerAdapter{
         User user = message.getAuthor();
         String content = message.getContentRaw();
         ArrayList<String> args = getargs(content);
-        ResultSet res = null;
         try {
-			res = req.request("SELECT * FROM Carte WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");
+        	System.out.println(message.getContentRaw());
+        	ResultSet res = req.request("SELECT * FROM Carte WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");
 			if (!res.next()) {
 				req.update("INSERT INTO Carte VALUES (" + guild.getId().toString() + ", " + user.getId().toString() + ", 'Mario', NULL, NULL, NULL, 1, 0, NULL);");
 				req.update("INSERT INTO Familiers VALUES (" + guild.getId().toString() + ", " + user.getId().toString() + ", 0, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 1);");
@@ -81,6 +86,7 @@ public class Commands extends ListenerAdapter{
 	        	return;
 	        }
 	        String suffixe = args.get(0).substring(1);
+	        System.out.println(message.getContentRaw());
 	        switch (suffixe) {
 		        case "ping":
 		            channel.sendMessage("chocho!").queue();
@@ -114,6 +120,7 @@ public class Commands extends ListenerAdapter{
 					inventory_command.build();
 		        	return;
 		        case "familiers":
+		        	System.out.println(message.getContentRaw());
 					Familiers familiers_command = new Familiers(channel, args, req, user, guild, message, emojis);
 					familiers_command.build();
 		        	return;
@@ -131,10 +138,24 @@ public class Commands extends ListenerAdapter{
 		this.req = req;
 		this.emojis = new FamiliersEmojis();
 	}
-	
-	public void onGenericMessageReaction​(GenericMessageReactionEvent event) {
-		MessageChannel channel = event.getChannel();
-		Guild guild = event.getGuild();
-        User user = event.getUser();        
+
+	@Override
+	public void onMessageReactionAdd(@Nonnull MessageReactionAddEvent event) {
+		User user = event.getUser();
+		if (user.isBot()) {
+			return;
+		}
+		Message message = event.getChannel().retrieveMessageById(event.getMessageId()).complete();
+		MessageReaction reaction = event.getReaction();
+		Emoji emoji = reaction.getEmoji();
+		try {
+			if (emoji.getType().equals(Type.UNICODE) && (emoji.getName().equals("➡️") || !emoji.getName().equals("⬅️"))) {
+				ResultSet res = req.request("SELECT * FROM FamiliersEmbeds WHERE id_message = " + message.getId() + ";");
+				int page = res.getInt("page");
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(1);
 	}
 }

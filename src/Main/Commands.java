@@ -34,8 +34,7 @@ public class Commands extends ListenerAdapter {
 		ArrayList<String> args = new ArrayList<String>();
 		String tmp_string = "";
 		int length = content.length();
-		char last_char = ' ';
-		char actual_char = ' ';
+		char last_char= ' ', actual_char = ' ';
 		boolean guillemet_ouvert = false;
 		for (int iterator = 0; iterator < length; iterator++) {
 			last_char = actual_char;
@@ -68,7 +67,7 @@ public class Commands extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
 		MessageChannel channel = event.getChannel();
 		Guild guild = event.getGuild();
-		char prefix = '?'; // Ã  modifier
+		char prefix = '?'; // À  modifier
         Message message = event.getMessage();
         User user = message.getAuthor();
         String content = message.getContentRaw();
@@ -139,6 +138,7 @@ public class Commands extends ListenerAdapter {
 	@Override
 	public void onMessageReactionAdd(@Nonnull MessageReactionAddEvent event) {
 		User user = event.getUser();
+		Guild guild = event.getGuild();
 		if (user.isBot()) {
 			return;
 		}
@@ -147,9 +147,10 @@ public class Commands extends ListenerAdapter {
 		Emoji emoji = reaction.getEmoji();
 		try {
 			if (emoji.getType().equals(Type.UNICODE) && (emoji.getName().equals("⬅️") || emoji.getName().equals("➡️"))) {
-				ResultSet res = req.request("SELECT * FROM FamiliersEmbeds WHERE id_message = " + message.getId() + ";");
+				ResultSet res = req.request("SELECT * FROM FamiliersEmbeds WHERE id_message = " + message.getId() + " AND id_member = " + user.getId() + ";");
 				int page = res.getInt("page");
-				PageUpdater pageupdater = new PageUpdater(user, message, page, emoji.getName(), req, emojis, reaction);
+				res.close();
+				PageUpdater pageupdater = new PageUpdater(user, message, page, emoji.getName(), req, emojis, reaction, guild);
 				pageupdater.update();
 			}
 		} catch (ClassNotFoundException | SQLException e) {

@@ -134,7 +134,14 @@ public class Commands extends ListenerAdapter {
 		this.req = req;
 		this.emojis = new FamiliersEmojis();
 	}
-
+	public boolean is_in(String word, String[] list_words) {
+		for (String tmp_word : list_words) {
+			if (tmp_word.equals(word)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	@Override
 	public void onMessageReactionAdd(@Nonnull MessageReactionAddEvent event) {
 		User user = event.getUser();
@@ -146,7 +153,8 @@ public class Commands extends ListenerAdapter {
 		MessageReaction reaction = event.getReaction();
 		Emoji emoji = reaction.getEmoji();
 		try {
-			if (emoji.getType().equals(Type.UNICODE) && (emoji.getName().equals("⬅️") || emoji.getName().equals("➡️"))) {
+			if (emoji.getType().equals(Type.CUSTOM) && (is_in(emoji.getFormatted(), emojis.get_emojis()))) {
+				System.out.println("OK HERE");
 				ResultSet res = req.request("SELECT * FROM FamiliersEmbeds WHERE id_message = " + message.getId() + " AND id_member = " + user.getId() + ";");
 				int page = res.getInt("page");
 				res.close();

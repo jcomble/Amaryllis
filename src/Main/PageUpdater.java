@@ -40,15 +40,11 @@ public class PageUpdater {
 				break;
 			}
 		}
-		page = Math.max(1, Math.min(20, page));
 		ResultSet res = req.request("SELECT * FROM Familiers WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");
 		int experience = res.getInt("expf" + String.valueOf(page));
 		String description = experience == -1 ? "-" : "niv. 1\n 20/20 PV\n 50/50 PM";
 		res.close();
-		System.out.println("STEP 1");
-		System.out.println("UPDATE FamiliersEmbeds SET page = " + String.valueOf(page) + " WHERE id_message = " + message.getId() + ";");
 		req.update("UPDATE FamiliersEmbeds SET page = " + String.valueOf(page) + " WHERE id_message = " + message.getId() + ";");
-		System.out.println("STEP 2");
 		EmbedBuilder embed = new EmbedBuilder();
 		embed.setDescription(description);
 		MessageEmbed msgemb = embed.build();

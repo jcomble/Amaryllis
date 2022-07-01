@@ -52,12 +52,8 @@ public class Familiers {
 		embed.setDescription(description);
 		channel.sendMessage(list_emojis[numero_familier - 1]).setEmbeds(embed.build()).queue(
 			(msg) -> {
-				RestAction<Void> action = null;
 				for (String emoji : list_emojis) {
-					action = msg.addReaction(Emoji.fromFormatted("<a:aa:" + emoji + ">"));
-				}
-				if (action != null) {
-					action.queue();
+					msg.addReaction(Emoji.fromFormatted(emoji)).queue();
 				}
 				String message_id = msg.getId();
 				try {

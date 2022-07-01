@@ -38,18 +38,18 @@ public class Familiers {
 			return;
 		}
 		message.delete().queue();
-		ResultSet res = req.request("SELECT * FROM Familiers WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");
+		ResultSet res = req.request("SELECT * FROM Carte WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");
+		int numero_familier = res.getInt("numero_familier");
+		res.close();
+		res = req.request("SELECT * FROM Familiers WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");
+		int experience = res.getInt("expf" + String.valueOf(numero_familier));
 		String[] list_emojis = emojis.get_emojis();
 		EmbedBuilder embed = new EmbedBuilder();
-		embed.setTitle("Familiers");
-		for (int iterator = 0; iterator < list_emojis.length; iterator++) {
-			int experience = res.getInt("expf" + String.valueOf(iterator + 1));
-			String text = experience == -1 ? "-" : "niv. 1\n 20/20 PV\n 50/50 PM";
-			embed.addField(list_emojis[iterator], text, true);
-		}
+		embed.setTitle("Familier actuel");
+		String description = experience == -1 ? "-" : "niv. 1\n 20/20 PV\n 50/50 PM";
 		res.close();
-		
-		channel.sendMessageEmbeds(embed.build()).queue(
+		embed.setDescription(description);
+		channel.sendMessage(list_emojis[numero_familier - 1]).setEmbeds(embed.build()).queue(
 			(msg) -> {
 				UnicodeEmojiImpl emoji = new UnicodeEmojiImpl("⬅️");
 				msg.addReaction(emoji).queue();

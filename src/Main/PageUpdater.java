@@ -33,10 +33,12 @@ public class PageUpdater {
 	}
 	
 	public void update() throws SQLException, ClassNotFoundException {
-		if (emoji_name.equals("⬅️")) {
-			page -= 1;
-		} else {
+		page = 0;
+		for (String tmp_emoji : emojis.get_emojis()) {
 			page +=1;
+			if (tmp_emoji.equals(emoji_name)) {
+				break;
+			}
 		}
 		page = Math.max(1, Math.min(20, page));
 		ResultSet res = req.request("SELECT * FROM Familiers WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");

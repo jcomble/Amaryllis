@@ -158,7 +158,7 @@ public class Commands extends ListenerAdapter {
 				ResultSet res = req.request("SELECT * FROM FamiliersEmbeds WHERE id_message = " + message.getId() + " AND id_member = " + user.getId() + ";");
 				int page = res.getInt("page");
 				res.close();
-				PageUpdater pageupdater = new PageUpdater(user, message, page, emoji.getName(), req, emojis, reaction, guild);
+				PageUpdater pageupdater = new PageUpdater(user, message, page, emoji.getFormatted(), req, emojis, reaction, guild);
 				pageupdater.update();
 			}
 		} catch (ClassNotFoundException | SQLException e) {

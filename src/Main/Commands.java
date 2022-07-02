@@ -154,7 +154,6 @@ public class Commands extends ListenerAdapter {
 		Emoji emoji = reaction.getEmoji();
 		try {
 			if (emoji.getType().equals(Type.CUSTOM) && (is_in(emoji.getFormatted(), emojis.get_emojis()))) {
-				System.out.println("OK HERE");
 				ResultSet res = req.request("SELECT * FROM FamiliersEmbeds WHERE id_message = " + message.getId() + " AND id_member = " + user.getId() + ";");
 				int page = res.getInt("page");
 				res.close();

@@ -213,7 +213,7 @@ public class SQLRequest {
 						+ ");");
 				update("CREATE TABLE \"Prefixes\" (\r\n"
 						+ "	\"id_server\"	INTEGER NOT NULL,\r\n"
-						+ "	\"prefixe\"	TEXT NOT NULL\r\n"
+						+ "	\"prefixe\"	INTEGER NOT NULL\r\n"
 						+ ");");
 			}
 		} catch (SQLException e) {

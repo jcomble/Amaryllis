@@ -51,14 +51,14 @@ public class Familiers {
 		embed.setDescription(description);
 		channel.sendMessage(list_emojis[numero_familier - 1]).setEmbeds(embed.build()).queue(
 			(msg) -> {
-				for (String emoji : list_emojis) {
-					msg.addReaction(Emoji.fromFormatted(emoji)).queue();
-				}
 				String message_id = msg.getId();
 				try {
 					req.update("INSERT INTO FamiliersEmbeds VALUES (" + guild.getId() + ", " + user.getId() + ", " + message_id + ", 0);");
 				} catch (SQLException e) {
 					e.printStackTrace();
+				}
+				for (String emoji : list_emojis) {
+					msg.addReaction(Emoji.fromFormatted(emoji)).queue();
 				}
 			}
 		);

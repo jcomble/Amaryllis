@@ -67,7 +67,6 @@ public class Commands extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
 		MessageChannel channel = event.getChannel();
 		Guild guild = event.getGuild();
-		char prefix = '?'; // À  modifier
         Message message = event.getMessage();
         User user = message.getAuthor();
         String content = message.getContentRaw();
@@ -83,6 +82,14 @@ public class Commands extends ListenerAdapter {
 				request += ", 1);";
 				req.update("INSERT INTO Familiers VALUES (" + guild.getId().toString() + ", " + user.getId().toString() + request);
 				req.update("INSERT INTO Inventaire VALUES (" + guild.getId().toString() + ", " + user.getId().toString() + ", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);");
+			}
+			res.close();
+			res = req.request("SELECT * FROM Prefixes WHERE id_server = " + guild.getId().toString() + ";");
+			char prefix = '?';
+			if (!res.next()) {
+				req.update("INSERT INTO Prefixes VALUES (" + guild.getId().toString() + ", " + String.valueOf((int) '?') + ")");
+			} else {
+				prefix = (char) res.getInt("prefixe");
 			}
 			res.close();
 	        if (args.size() == 0 || args.get(0).charAt(0) != prefix) {

@@ -10,6 +10,7 @@ import commands.Changecasw;
 import commands.Changefetiche;
 import commands.Changepseudosw;
 import commands.Changeurlmaster;
+import commands.Defineprefix;
 import commands.Familiers;
 import commands.Help;
 import commands.Inventory;
@@ -135,6 +136,10 @@ public class Commands extends ListenerAdapter {
 		        case "help":
 		        	Help help = new Help(channel, args, message);
 		        	help.build();
+		        	return;
+		        case "defineprefix":
+					Defineprefix defineprefix_command = new Defineprefix(channel, args, req, user, guild, message);
+					defineprefix_command.build();
 		        	return;
 	        }
         } catch (ClassNotFoundException | SQLException e) {

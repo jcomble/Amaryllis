@@ -28,10 +28,10 @@ public class Help {
 		EmbedBuilder embed = new EmbedBuilder();
 		embed.setTitle("Aides");
 		embed.setDescription("Contacte DaSTOC-senpai pour des soucis techniques : <@931339802857586700> ");
-		embed.addField("Carte de présentation <a:hideri_hi:991710158386364437>", "`?me` : affiche ta carte de présentation\n`?renamemaster nom` : renomme le nom de ton maître\n`?changeurlmaster url` : change l'image du maître\n`?changefetiche \"phrase\"` : change la phrase fétiche du maître\n`?changepseudosw \"pseudo\"` : change ton pseudo Switch\n `?changecasw codeami` : change ton code ami Switch", false);
-		embed.addField("Possessions <:hideri_joie:991706755069399070>", "`?inventory` : affiche ton inventaire\n`?familiers` : affiche tes familiers", false);
-		embed.addField("Personnalisation <:hideri_ahegao:991706750413717526>", "`?defineprefix` : définit le préfixe dans ce serveur", true);
-		embed.setFooter("?help");
+		embed.addField("Carte de présentation <a:hideri_hi:991710158386364437>", "`" + prefix + "me` : affiche ta carte de présentation\n`" + prefix + "renamemaster nom` : renomme le nom de ton maître\n`" + prefix + "changeurlmaster url` : change l'image du maître\n`" + prefix  + "changefetiche \"phrase\"` : change la phrase fétiche du maître\n`" + prefix + "changepseudosw \"pseudo\"` : change ton pseudo Switch\n `" + prefix + "changecasw codeami` : change ton code ami Switch", false);
+		embed.addField("Possessions <:hideri_joie:991706755069399070>", "`" + prefix + "inventory` : affiche ton inventaire\n`" + prefix + "familiers` : affiche tes familiers", false);
+		embed.addField("Personnalisation <:hideri_ahegao:991706750413717526>", "`" + prefix + "defineprefix` : définit le préfixe dans ce serveur", true);
+		embed.setFooter(prefix + "help");
 		channel.sendMessageEmbeds(embed.build()).queue();
 	}
 }

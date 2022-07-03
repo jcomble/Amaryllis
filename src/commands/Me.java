@@ -68,7 +68,7 @@ public class Me {
 		int numero_familier = res.getInt("numero_familier");
 		String emoji = list_emojis[numero_familier - 1];
 		embed.addField("Familier actuel :", emoji, true);
-		embed.setFooter("?me");
+		embed.setFooter(prefix + "me");
 		res.close();
 		channel.sendMessageEmbeds(embed.build()).queue();
 	}

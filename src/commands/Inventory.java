@@ -18,8 +18,10 @@ public class Inventory {
 	private User user;
 	private Guild guild;
 	private Message message;
+	private char prefix;
 	
-	public Inventory(MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message){
+	public Inventory(char prefix, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message){
+		this.prefix = prefix;
 		this.channel = channel;
 		this.args = args;
 		this.req = req;
@@ -30,7 +32,7 @@ public class Inventory {
 	
 	public void build() throws ClassNotFoundException, SQLException {
 		if (args.size() != 1) {
-			channel.sendMessageFormat("`?inventory` seulement").queue();
+			channel.sendMessageFormat("`" + prefix + "inventory` seulement").queue();
 			return;
 		}
 		message.delete().queue();

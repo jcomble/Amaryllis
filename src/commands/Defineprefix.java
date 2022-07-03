@@ -18,8 +18,10 @@ public class Defineprefix {
 	private User user;
 	private Guild guild;
 	private Message message;
+	private char prefix;
 	
-	public Defineprefix(MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message) {
+	public Defineprefix(char prefix, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message) {
+		this.prefix = prefix;
 		this.channel = channel;
 		this.args = args;
 		this.req = req;
@@ -30,7 +32,7 @@ public class Defineprefix {
 	
 	public void build() throws SQLException {
 		if (args.size() != 2) {
-			channel.sendMessageFormat("`?defineprefix prefix` seulement").queue();
+			channel.sendMessageFormat("`" + prefix + "defineprefix prefix` seulement").queue();
 			return;
 		}
 		String s_prefix = args.get(1);

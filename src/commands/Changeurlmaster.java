@@ -16,6 +16,7 @@ public class Changeurlmaster {
 	private User user;
 	private Guild guild;
 	private Message message;
+	private char prefix;
 	
 	private String corriger(String url) {
 		String tmp_return = "";
@@ -30,7 +31,8 @@ public class Changeurlmaster {
 		return tmp_return;
 	}
 	
-	public Changeurlmaster(MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message) {
+	public Changeurlmaster(char prefix, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message) {
+		this.prefix = prefix;
 		this.channel = channel;
 		this.args = args;
 		this.req = req;
@@ -41,7 +43,7 @@ public class Changeurlmaster {
 	
 	public void build() throws SQLException {
 		if (args.size() != 2) {
-			channel.sendMessageFormat("`?changeurlmaster url` seulement").queue();
+			channel.sendMessageFormat("`" + prefix + "changeurlmaster url` seulement").queue();
 			return;
 		}
 		message.delete().queue();

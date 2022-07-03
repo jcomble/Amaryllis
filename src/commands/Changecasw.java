@@ -16,6 +16,7 @@ public class Changecasw {
 	private User user;
 	private Guild guild;
 	private Message message;
+	private char prefix;
 	
 	private boolean is_good_ca(String CA) {
 		int length = CA.length();
@@ -27,7 +28,8 @@ public class Changecasw {
 		return true;
 	}
 	
-	public Changecasw(MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message) {
+	public Changecasw(char prefix, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message) {
+		this.prefix = prefix;
 		this.channel = channel;
 		this.args = args;
 		this.req = req;
@@ -38,7 +40,7 @@ public class Changecasw {
 	
 	public void build() throws SQLException {
 		if (args.size() != 2) {
-			channel.sendMessageFormat("`?changecasw CA` seulement").queue();
+			channel.sendMessageFormat("`" + prefix + "changecasw CA` seulement").queue();
 			return;
 		}
 		String CA = args.get(1);

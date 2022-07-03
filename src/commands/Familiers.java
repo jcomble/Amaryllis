@@ -21,8 +21,10 @@ public class Familiers {
 	private Guild guild;
 	private Message message;
 	private FamiliersEmojis emojis;
+	private char prefix;
 	
-	public Familiers(MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message, FamiliersEmojis emojis) {
+	public Familiers(char prefix, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message, FamiliersEmojis emojis) {
+		this.prefix = prefix;
 		this.channel = channel;
 		this.args = args;
 		this.req = req;
@@ -34,7 +36,7 @@ public class Familiers {
 	
 	public void build() throws ClassNotFoundException, SQLException {
 		if (args.size() != 1) {
-			channel.sendMessageFormat("`?familiers` seulement").queue();
+			channel.sendMessageFormat("`" + prefix + "familiers` seulement").queue();
 			return;
 		}
 		message.delete().queue();

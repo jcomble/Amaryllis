@@ -16,6 +16,7 @@ public class Renamemaster {
 	private User user;
 	private Guild guild;
 	private Message message;
+	private char prefix;
 	
 	private String corriger(String nom) {
 		String tmp_return = "";
@@ -30,7 +31,8 @@ public class Renamemaster {
 		return tmp_return;
 	}
 	
-	public Renamemaster(MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message) {
+	public Renamemaster(char prefix, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message) {
+		this.prefix = prefix;
 		this.channel = channel;
 		this.args = args;
 		this.req = req;
@@ -41,7 +43,7 @@ public class Renamemaster {
 	
 	public void build() throws SQLException {
 		if (args.size() != 2) {
-			channel.sendMessageFormat("`?renamemaster name` seulement").queue();
+			channel.sendMessageFormat("`" + prefix + "renamemaster name` seulement").queue();
 			return;
 		}
 		String nom = args.get(1);

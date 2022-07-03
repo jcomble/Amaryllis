@@ -16,6 +16,7 @@ public class Changefetiche {
 	private User user;
 	private Guild guild;
 	private Message message;
+	private char prefix;
 	
 	private String corriger(String fetiche) {
 		String tmp_return = "";
@@ -30,7 +31,8 @@ public class Changefetiche {
 		return tmp_return;
 	}
 	
-	public Changefetiche(MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message){
+	public Changefetiche(char prefix, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message){
+		this.prefix = prefix;
 		this.channel = channel;
 		this.args = args;
 		this.req = req;
@@ -41,7 +43,7 @@ public class Changefetiche {
 	
 	public void build() throws SQLException {
 		if (args.size() != 2) {
-			channel.sendMessageFormat("`?changefetiche \"phrase\"` seulement").queue();
+			channel.sendMessageFormat("`" + prefix + "changefetiche \"phrase\"` seulement").queue();
 			return;
 		}
 		String fetiche = args.get(1);

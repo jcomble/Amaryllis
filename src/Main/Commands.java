@@ -102,43 +102,43 @@ public class Commands extends ListenerAdapter {
 		            channel.sendMessage("chocho!").queue();
 		            return;
 		        case "me":
-					Me me_command = new Me(channel, args, req, user, guild, message, emojis);
+					Me me_command = new Me(prefix, channel, args, req, user, guild, message, emojis);
 					me_command.build();
 		        	return;
 		        case "renamemaster":
-					Renamemaster renamemaster_command = new Renamemaster(channel, args, req, user, guild, message);
+					Renamemaster renamemaster_command = new Renamemaster(prefix, channel, args, req, user, guild, message);
 					renamemaster_command.build();
 		        	return;
 		        case "changefetiche":
-					Changefetiche changefetiche_command = new Changefetiche(channel, args, req, user, guild, message);
+					Changefetiche changefetiche_command = new Changefetiche(prefix, channel, args, req, user, guild, message);
 					changefetiche_command.build();
 		        	return;
 		        case "changepseudosw":
-					Changepseudosw changepseudosw_command = new Changepseudosw(channel, args, req, user, guild, message);
+					Changepseudosw changepseudosw_command = new Changepseudosw(prefix, channel, args, req, user, guild, message);
 					changepseudosw_command.build();
 		        	return;
 		        case "changecasw":
-					Changecasw changecasw_command = new Changecasw(channel, args, req, user, guild, message);
+					Changecasw changecasw_command = new Changecasw(prefix, channel, args, req, user, guild, message);
 					changecasw_command.build();
 		        	return;
 		        case "changeurlmaster":
-					Changeurlmaster changeurlmaster_command = new Changeurlmaster(channel, args, req, user, guild, message);
+					Changeurlmaster changeurlmaster_command = new Changeurlmaster(prefix, channel, args, req, user, guild, message);
 					changeurlmaster_command.build();
 		        	return;
 		        case "inventory":
-					Inventory inventory_command = new Inventory(channel, args, req, user, guild, message);
+					Inventory inventory_command = new Inventory(prefix, channel, args, req, user, guild, message);
 					inventory_command.build();
 		        	return;
 		        case "familiers":
-					Familiers familiers_command = new Familiers(channel, args, req, user, guild, message, emojis);
+					Familiers familiers_command = new Familiers(prefix, channel, args, req, user, guild, message, emojis);
 					familiers_command.build();
 		        	return;
 		        case "help":
-		        	Help help = new Help(channel, args, message);
+		        	Help help = new Help(prefix, channel, args, message);
 		        	help.build();
 		        	return;
 		        case "defineprefix":
-					Defineprefix defineprefix_command = new Defineprefix(channel, args, req, user, guild, message);
+					Defineprefix defineprefix_command = new Defineprefix(prefix, channel, args, req, user, guild, message);
 					defineprefix_command.build();
 		        	return;
 	        }

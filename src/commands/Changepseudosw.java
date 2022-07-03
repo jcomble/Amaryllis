@@ -15,6 +15,7 @@ public class Changepseudosw {
 	private User user;
 	private Guild guild;
 	private Message message;
+	private char prefix;
 	
 	private String corriger(String nom) {
 		String tmp_return = "";
@@ -29,7 +30,8 @@ public class Changepseudosw {
 		return tmp_return;
 	}
 	
-	public Changepseudosw(MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message) {
+	public Changepseudosw(char prefix, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message) {
+		this.prefix = prefix;
 		this.channel = channel;
 		this.args = args;
 		this.req = req;
@@ -40,7 +42,7 @@ public class Changepseudosw {
 	
 	public void build() throws SQLException {
 		if (args.size() != 2) {
-			channel.sendMessageFormat("`?changepseudosw pseudo` seulement").queue();
+			channel.sendMessageFormat("`" + prefix + "changepseudosw pseudo` seulement").queue();
 			return;
 		}
 		String nom = args.get(1);

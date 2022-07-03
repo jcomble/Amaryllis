@@ -10,8 +10,10 @@ public class Help {
 	private MessageChannel channel;
 	private ArrayList<String> args;
 	private Message message;
+	private char prefix;
 	
-	public Help(MessageChannel channel, ArrayList<String> args, Message message) {
+	public Help(char prefix, MessageChannel channel, ArrayList<String> args, Message message) {
+		this.prefix = prefix;
 		this.channel = channel;
 		this.args = args;
 		this.message = message;
@@ -19,7 +21,7 @@ public class Help {
 	
 	public void build() {
 		if (args.size() != 1) {
-			channel.sendMessage("`?help`seulement").queue();
+			channel.sendMessage("`" + prefix + "help`seulement").queue();
 			return;
 		}
 		message.delete().queue();

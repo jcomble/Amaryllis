@@ -21,8 +21,10 @@ public class Me {
 	private Message message;
 	private FamiliersEmojis emojis;
 	private char prefix;
+	private int couleur;
 	
-	public Me(char prefix, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message, FamiliersEmojis emojis) {
+	public Me(char prefix, int couleur, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message, FamiliersEmojis emojis) {
+		this.couleur = couleur;
 		this.prefix = prefix;
 		this.channel = channel;
 		this.args = args;
@@ -42,6 +44,7 @@ public class Me {
 		ResultSet res = req.request("SELECT * FROM Carte WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");
 		String nom_maitre = res.getString("nom_maitre");
 		EmbedBuilder embed = new EmbedBuilder();
+		embed.setColor(couleur);
 		embed.setTitle(nom_maitre);
 		String url_maitre = res.getString("url_maitre");
 		if (url_maitre == null) {

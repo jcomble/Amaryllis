@@ -10,6 +10,7 @@ import commands.Changecasw;
 import commands.Changefetiche;
 import commands.Changepseudosw;
 import commands.Changeurlmaster;
+import commands.Definecolor;
 import commands.Defineprefix;
 import commands.Familiers;
 import commands.Help;
@@ -93,6 +94,14 @@ public class Commands extends ListenerAdapter {
 				prefix = (char) res.getInt("prefixe");
 			}
 			res.close();
+			res = req.request("SELECT * FROM Couleurs WHERE id_server = " + guild.getId().toString() + ";");
+			int couleur = 16711680;
+			if (!res.next()) {
+				req.update("INSERT INTO Couleurs VALUES (" + guild.getId().toString() + ", 16711680)");
+			} else {
+				couleur = res.getInt("couleur");
+			}
+			res.close();
 	        if (args.size() == 0 || args.get(0).charAt(0) != prefix) {
 	        	return;
 	        }
@@ -102,7 +111,7 @@ public class Commands extends ListenerAdapter {
 		            channel.sendMessage("chocho!").queue();
 		            return;
 		        case "me":
-					Me me_command = new Me(prefix, channel, args, req, user, guild, message, emojis);
+					Me me_command = new Me(prefix, couleur, channel, args, req, user, guild, message, emojis);
 					me_command.build();
 		        	return;
 		        case "renamemaster":
@@ -140,6 +149,10 @@ public class Commands extends ListenerAdapter {
 		        case "defineprefix":
 					Defineprefix defineprefix_command = new Defineprefix(prefix, channel, args, req, user, guild, message);
 					defineprefix_command.build();
+		        	return;
+		        case "definecolor":
+		        	Definecolor definecolor_command = new Definecolor(prefix, channel, args, req, user, guild, message);
+		        	definecolor_command.build();
 		        	return;
 	        }
         } catch (ClassNotFoundException | SQLException e) {

@@ -57,6 +57,5 @@ public class Defineprefix {
 				channel.sendMessageFormat("Le préfixe de ce serveur est `" + prefix + "` désormais").queue();
 			}
 		);
-		
 	}
 }

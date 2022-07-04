@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.annotation.Nonnull;
 
 import commands.Changecasw;
+import commands.Changefamilier;
 import commands.Changefetiche;
 import commands.Changepseudosw;
 import commands.Changeurlmaster;
@@ -153,6 +154,10 @@ public class Commands extends ListenerAdapter {
 		        case "definecolor":
 		        	Definecolor definecolor_command = new Definecolor(prefix, channel, args, req, user, guild, message);
 		        	definecolor_command.build();
+		        	return;
+		        case "changefamilier":
+		        	Changefamilier changefamilier_command = new Changefamilier(prefix, channel, args, req, user, guild, message);
+		        	changefamilier_command.build();
 		        	return;
 	        }
         } catch (ClassNotFoundException | SQLException e) {

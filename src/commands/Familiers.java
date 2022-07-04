@@ -25,6 +25,7 @@ public class Familiers {
 	private int couleur;
 	
 	public Familiers(char prefix, int couleur, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message, FamiliersEmojis emojis) {
+		this.couleur = couleur;
 		this.prefix = prefix;
 		this.channel = channel;
 		this.args = args;

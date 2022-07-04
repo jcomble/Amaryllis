@@ -20,8 +20,9 @@ public class PageUpdater {
 	private FamiliersEmojis emojis;
 	private MessageReaction reaction;
 	private Guild guild;
+	private int couleur;
 	
-	public PageUpdater(User user, Message message, int page, String emoji_name, SQLRequest req, FamiliersEmojis emojis, MessageReaction reaction, Guild guild) {
+	public PageUpdater(User user, Message message, int page, String emoji_name, SQLRequest req, FamiliersEmojis emojis, MessageReaction reaction, Guild guild, int couleur) {
 		this.user = user;
 		this.message = message;
 		this.page = page;
@@ -30,6 +31,7 @@ public class PageUpdater {
 		this.emojis = emojis;
 		this.reaction = reaction;
 		this.guild = guild;
+		this.couleur = couleur;
 	}
 	
 	public void update() throws SQLException, ClassNotFoundException {
@@ -46,6 +48,7 @@ public class PageUpdater {
 		res.close();
 		req.update("UPDATE FamiliersEmbeds SET page = " + String.valueOf(page) + " WHERE id_message = " + message.getId() + ";");
 		EmbedBuilder embed = new EmbedBuilder();
+		embed.setColor(couleur);
 		embed.setDescription(description);
 		MessageEmbed msgemb = embed.build();
 		MessageAction msgact = message.editMessage(emojis.get_emojis()[page - 1]);

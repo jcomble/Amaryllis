@@ -11,8 +11,10 @@ public class Help {
 	private ArrayList<String> args;
 	private Message message;
 	private char prefix;
+	private int couleur;
 	
-	public Help(char prefix, MessageChannel channel, ArrayList<String> args, Message message) {
+	public Help(char prefix, int couleur, MessageChannel channel, ArrayList<String> args, Message message) {
+		this.couleur = couleur;
 		this.prefix = prefix;
 		this.channel = channel;
 		this.args = args;
@@ -26,6 +28,7 @@ public class Help {
 		}
 		message.delete().queue();
 		EmbedBuilder embed = new EmbedBuilder();
+		embed.setColor(couleur);
 		embed.setTitle("Aides");
 		embed.setDescription("Contacte DaSTOC-senpai pour des soucis techniques : <@931339802857586700> ");
 		embed.addField("Carte de présentation <a:hideri_hi:991710158386364437>", "`" + prefix + "me` : affiche ta carte de présentation\n`" + prefix + "renamemaster nom` : renomme le nom de ton maître\n`" + prefix + "changeurlmaster url` : change l'image du maître\n`" + prefix  + "changefetiche \"phrase\"` : change la phrase fétiche du maître\n`" + prefix + "changepseudosw \"pseudo\"` : change ton pseudo Switch\n `" + prefix + "changecasw codeami` : change ton code ami Switch", false);

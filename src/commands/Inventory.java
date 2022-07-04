@@ -19,8 +19,10 @@ public class Inventory {
 	private Guild guild;
 	private Message message;
 	private char prefix;
+	private int couleur;
 	
-	public Inventory(char prefix, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message){
+	public Inventory(char prefix, int couleur, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message) {
+		this.couleur = couleur;
 		this.prefix = prefix;
 		this.channel = channel;
 		this.args = args;
@@ -38,6 +40,7 @@ public class Inventory {
 		message.delete().queue();
 		ResultSet res = req.request("SELECT * FROM Inventaire WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");
 		EmbedBuilder embed = new EmbedBuilder();
+		embed.setColor(couleur);
 		embed.setTitle("Inventaire");
 		String description = "";
 		description += res.getInt("pieces") + " <:piece:989856383870566410>\n";

@@ -135,15 +135,15 @@ public class Commands extends ListenerAdapter {
 					changeurlmaster_command.build();
 		        	return;
 		        case "inventory":
-					Inventory inventory_command = new Inventory(prefix, channel, args, req, user, guild, message);
+					Inventory inventory_command = new Inventory(prefix, couleur, channel, args, req, user, guild, message);
 					inventory_command.build();
 		        	return;
 		        case "familiers":
-					Familiers familiers_command = new Familiers(prefix, channel, args, req, user, guild, message, emojis);
+					Familiers familiers_command = new Familiers(prefix, couleur, channel, args, req, user, guild, message, emojis);
 					familiers_command.build();
 		        	return;
 		        case "help":
-		        	Help help = new Help(prefix, channel, args, message);
+		        	Help help = new Help(prefix, couleur, channel, args, message);
 		        	help.build();
 		        	return;
 		        case "defineprefix":
@@ -184,10 +184,13 @@ public class Commands extends ListenerAdapter {
 		Emoji emoji = reaction.getEmoji();
 		try {
 			if (emoji.getType().equals(Type.CUSTOM) && (is_in(emoji.getFormatted(), emojis.get_emojis()))) {
-				ResultSet res = req.request("SELECT * FROM FamiliersEmbeds WHERE id_message = " + message.getId() + " AND id_member = " + user.getId() + ";");
+				ResultSet res = req.request("SELECT * FROM Couleurs WHERE id_server = " + guild.getId().toString() + ";");
+				int couleur = res.getInt("couleur");
+				res.close();
+				res = req.request("SELECT * FROM FamiliersEmbeds WHERE id_message = " + message.getId() + " AND id_member = " + user.getId() + ";");
 				int page = res.getInt("page");
 				res.close();
-				PageUpdater pageupdater = new PageUpdater(user, message, page, emoji.getFormatted(), req, emojis, reaction, guild);
+				PageUpdater pageupdater = new PageUpdater(user, message, page, emoji.getFormatted(), req, emojis, reaction, guild, couleur);
 				pageupdater.update();
 			}
 		} catch (ClassNotFoundException | SQLException e) {

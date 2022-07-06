@@ -44,7 +44,11 @@ public class PageUpdater {
 		}
 		ResultSet res = req.request("SELECT * FROM Familiers WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");
 		int experience = res.getInt("expf" + String.valueOf(page));
-		String description = experience == -1 ? "-" : "niv. 1\n 20/20 PV\n 50/50 PM";
+		int version = res.getInt("versionf" + String.valueOf(page));
+		int pv = res.getInt("pvf" + String.valueOf(page));
+		int pm = res.getInt("pmf" + String.valueOf(page));
+		StatsReader stats = new StatsReader(page, experience, version, pv, pm);
+		String description = stats.getstats();
 		res.close();
 		req.update("UPDATE FamiliersEmbeds SET page = " + String.valueOf(page) + " WHERE id_message = " + message.getId() + ";");
 		EmbedBuilder embed = new EmbedBuilder();

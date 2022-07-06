@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
-public class Me {
+public class Me implements DiscordCommands {
 	private MessageChannel channel;
 	private ArrayList<String> args;
 	private SQLRequest req;
@@ -35,12 +35,13 @@ public class Me {
 		this.emojis = emojis;
 	}
 	
-	public void build() throws ClassNotFoundException, SQLException {
+	public void build() {
 		if (args.size() != 1) {
 			channel.sendMessageFormat("`" + prefix + "me` seulement").queue();
 			return;
 		}
 		message.delete().queue();
+		try {
 		ResultSet res = req.request("SELECT * FROM Carte WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");
 		String nom_maitre = res.getString("nom_maitre");
 		EmbedBuilder embed = new EmbedBuilder();
@@ -74,5 +75,7 @@ public class Me {
 		embed.setFooter(prefix + "me");
 		res.close();
 		channel.sendMessageEmbeds(embed.build()).queue();
+		} catch (SQLException | ClassNotFoundException e) {
+		}
 	}
 }

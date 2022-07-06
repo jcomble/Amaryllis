@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
-public class Definecolor {
+public class Definecolor implements DiscordCommands {
 	private MessageChannel channel;
 	private ArrayList<String> args;
 	private SQLRequest req;
@@ -58,7 +58,7 @@ public class Definecolor {
 		return s;
 	}
 	
-	public void build() throws SQLException {
+	public void build() {
 		if (args.size() != 2) {
 			channel.sendMessageFormat("`" + prefix + "definecolor #Hexadecimal-color` seulement").queue();
 			return;

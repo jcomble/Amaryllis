@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
-public class Changefetiche {
+public class Changefetiche implements DiscordCommands {
 	private MessageChannel channel;
 	private ArrayList<String> args;
 	private SQLRequest req;
@@ -41,7 +41,7 @@ public class Changefetiche {
 		this.message = message;
 	}
 	
-	public void build() throws SQLException {
+	public void build() {
 		if (args.size() != 2) {
 			channel.sendMessageFormat("`" + prefix + "changefetiche \"phrase\"` seulement").queue();
 			return;
@@ -53,6 +53,9 @@ public class Changefetiche {
 			return;
 		}
 		message.delete().queue();
-		req.update("UPDATE Carte SET fetiche = '" + fetiche + "' WHERE id_server = " + guild.getId().toString() + " AND id_member = " + user.getId().toString() + ";");
+		try {
+			req.update("UPDATE Carte SET fetiche = '" + fetiche + "' WHERE id_server = " + guild.getId().toString() + " AND id_member = " + user.getId().toString() + ";");
+		} catch (SQLException e) {
+		}
 	}
 }

@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
-public class Defineprefix {
+public class Defineprefix implements DiscordCommands {
 	private MessageChannel channel;
 	private ArrayList<String> args;
 	private SQLRequest req;
@@ -30,7 +30,7 @@ public class Defineprefix {
 		this.message = message;
 	}
 	
-	public void build() throws SQLException {
+	public void build() {
 		if (args.size() != 2) {
 			channel.sendMessageFormat("`" + prefix + "defineprefix prefix` seulement").queue();
 			return;

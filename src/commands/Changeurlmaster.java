@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
-public class Changeurlmaster {
+public class Changeurlmaster implements DiscordCommands {
 	private MessageChannel channel;
 	private ArrayList<String> args;
 	private SQLRequest req;
@@ -41,7 +41,7 @@ public class Changeurlmaster {
 		this.message = message;
 	}
 	
-	public void build() throws SQLException {
+	public void build() {
 		if (args.size() != 2) {
 			channel.sendMessageFormat("`" + prefix + "changeurlmaster url` seulement").queue();
 			return;
@@ -49,6 +49,9 @@ public class Changeurlmaster {
 		message.delete().queue();
 		String url = args.get(1);
 		url = corriger(url);
-		req.update("UPDATE Carte SET url_maitre = '" + url + "' WHERE id_server = " + guild.getId().toString() + " AND id_member = " + user.getId().toString() + ";");
+		try {
+			req.update("UPDATE Carte SET url_maitre = '" + url + "' WHERE id_server = " + guild.getId().toString() + " AND id_member = " + user.getId().toString() + ";");
+		} catch (SQLException e) {
+		}
 	}
 }

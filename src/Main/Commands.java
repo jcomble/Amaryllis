@@ -78,7 +78,7 @@ public class Commands extends ListenerAdapter {
         	ResultSet res = req.request("SELECT * FROM Carte WHERE id_member = " + user.getId().toString() + " AND id_server = " + guild.getId().toString() + ";");
 			if (!res.next()) {
 				req.update("INSERT INTO Carte VALUES (" + guild.getId().toString() + ", " + user.getId().toString() + ", 'Mario', NULL, NULL, NULL, 1, 0, NULL);");
-				String request = ", 0, 0, 0, 1";
+				String request = ", 0, 20, 50, 1";
 				for (int iterator = 0; iterator < 19; iterator++) {
 					request += ", 0, 0, 0, 0";
 				}

@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
-public class Help {
+public class Help implements DiscordCommands {
 	private MessageChannel channel;
 	private ArrayList<String> args;
 	private Message message;

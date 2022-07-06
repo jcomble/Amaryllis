@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
-public class Changefamilier {
+public class Changefamilier implements DiscordCommands {
 	private MessageChannel channel;
 	private ArrayList<String> args;
 	private SQLRequest req;
@@ -39,7 +39,7 @@ public class Changefamilier {
 		return true;
 	}
 	
-	public void build() throws SQLException, ClassNotFoundException {
+	public void build()  {
 		if (args.size() != 2) {
 			channel.sendMessageFormat("`" + prefix + "changefamilier numero` seulement!").queue();
 			return;
@@ -54,15 +54,19 @@ public class Changefamilier {
 			channel.sendMessageFormat("Il n'y a que 20 familiers, le numéro doit être compris entre 1 et 20!").queue();
 			return;
 		}
-		ResultSet res = req.request("SELECT * FROM Familiers WHERE id_server = " + guild.getId().toString() + " AND id_member = " + user.getId().toString() + ";");
-		int version = res.getInt("versionf" + String.valueOf(int_number));
-		res.close();
-		if (version == 0) {
-			channel.sendMessageFormat("Vous n'avez pas ce familier!").queue();
+		try {
+			ResultSet res = req.request("SELECT * FROM Familiers WHERE id_server = " + guild.getId().toString() + " AND id_member = " + user.getId().toString() + ";");
+			int version = res.getInt("versionf" + String.valueOf(int_number));
+			res.close();
+			if (version == 0) {
+				channel.sendMessageFormat("Vous n'avez pas ce familier!").queue();
+				return;
+			}
+			message.delete().queue();
+			req.update("UPDATE Carte SET numero_familier = '" + String.valueOf(int_number) + "' WHERE id_server = " + guild.getId().toString() + " AND id_member = " + user.getId().toString() + ";");
+			channel.sendMessageFormat("Vous avez changé de familier!").queue();
+		} catch (ClassNotFoundException | SQLException e) {
 			return;
 		}
-		message.delete().queue();
-		req.update("UPDATE Carte SET numero_familier = '" + String.valueOf(int_number) + "' WHERE id_server = " + guild.getId().toString() + " AND id_member = " + user.getId().toString() + ";");
-		channel.sendMessageFormat("Vous avez changé de familier!").queue();
 	}
 }

@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
-public class Renamemaster {
+public class Renamemaster implements DiscordCommands {
 	private MessageChannel channel;
 	private ArrayList<String> args;
 	private SQLRequest req;
@@ -41,7 +41,7 @@ public class Renamemaster {
 		this.message = message;
 	}
 	
-	public void build() throws SQLException {
+	public void build() {
 		if (args.size() != 2) {
 			channel.sendMessageFormat("`" + prefix + "renamemaster name` seulement").queue();
 			return;
@@ -53,6 +53,9 @@ public class Renamemaster {
 			return;
 		}
 		message.delete().queue();
-		req.update("UPDATE Carte SET nom_maitre = '" + nom + "' WHERE id_server = " + guild.getId().toString() + " AND id_member = " + user.getId().toString() + ";");
+		try {
+			req.update("UPDATE Carte SET nom_maitre = '" + nom + "' WHERE id_server = " + guild.getId().toString() + " AND id_member = " + user.getId().toString() + ";");
+		} catch (SQLException e) {
+		}
 	}
 }

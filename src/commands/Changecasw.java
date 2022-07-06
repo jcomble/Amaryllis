@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
-public class Changecasw {
+public class Changecasw implements DiscordCommands {
 	private MessageChannel channel;
 	private ArrayList<String> args;
 	private SQLRequest req;
@@ -38,7 +38,7 @@ public class Changecasw {
 		this.message = message;
 	}
 	
-	public void build() throws SQLException {
+	public void build(){
 		if (args.size() != 2) {
 			channel.sendMessageFormat("`" + prefix + "changecasw CA` seulement").queue();
 			return;
@@ -49,6 +49,9 @@ public class Changecasw {
 			return;
 		}
 		message.delete().queue();
-		req.update("UPDATE Carte SET code_ami = '" + CA + "' WHERE id_server = " + guild.getId().toString() + " AND id_member = " + user.getId().toString() + ";");
+		try {
+			req.update("UPDATE Carte SET code_ami = '" + CA + "' WHERE id_server = " + guild.getId().toString() + " AND id_member = " + user.getId().toString() + ";");
+		} catch (SQLException e) {
+		}
 	}
 }

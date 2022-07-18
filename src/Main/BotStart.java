@@ -3,6 +3,7 @@ package Main;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -52,7 +53,18 @@ public class BotStart {
             .build();
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         Runnable task = () -> {
-        	System.out.println("This is the Monado Power");
+        	FamiliersHealer healer = new FamiliersHealer();
+        	try {
+				ResultSet res = req.request("SELECT * FROM Familiers");
+				while (res.next()) {
+					System.out.println(res.getString("id_server") + ", " + res.getString("id_member"));
+					
+					String result = healer.heal(res);
+					System.out.println(result);
+				}
+				res.close();
+			} catch (ClassNotFoundException | SQLException e) {
+			}
         };
         executor.scheduleWithFixedDelay(task, 0, 1, TimeUnit.HOURS);
     }

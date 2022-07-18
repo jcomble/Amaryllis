@@ -15,6 +15,9 @@ public class StatsReader {
 	private final int pv_plus[] = {50, 61, 75, 92, 113, 139, 170, 209, 256, 315};
 	private final int pv_moins[] = {20, 31, 45, 62, 83, 109, 140, 179, 226, 285};
 	private final int pv_normal[] = {30, 41, 55, 72, 93, 119, 150, 189, 236, 295};
+	private final int bonus_PV[] = {0, 11, 23, 35, 46, 58, 70, 81, 93, 105};
+	private final int bonus_PM[] = {0, 4, 8, 13, 17, 22, 26, 31, 35, 40};
+	private final int bonus_attaque[] = {0, 4, 8, 13, 17, 22, 26, 31, 35, 40};
 	private final String[] list = new String[] {
 		"-", "-", "-",
 		"-", "", "",
@@ -55,17 +58,29 @@ public class StatsReader {
 	
 	public int get_PV_MAX() {
 		int niveau = get_niveau();
-		return list[3 * (numero_familier - 1) + 1].equals("") ? pv_normal[niveau - 1] : (list[3 * (numero_familier - 1) + 1].equals("-") ? pv_moins[niveau - 1]: pv_plus[niveau - 1]);
+		int base_PV_MAX = list[3 * (numero_familier - 1) + 1].equals("") ? pv_normal[niveau - 1] : (list[3 * (numero_familier - 1) + 1].equals("-") ? pv_moins[niveau - 1]: pv_plus[niveau - 1]);
+		if (version != 0) {
+			return base_PV_MAX + bonus_PV[version - 1];
+		}
+		return base_PV_MAX;
 	}
 	
 	public int get_PM_MAX() {
 		int niveau = get_niveau();
-		return list[3 * (numero_familier - 1) + 2].equals("") ? pm_normal[niveau - 1] : (list[3 * (numero_familier - 1) + 2].equals("-") ? pm_moins[niveau - 1]: pm_plus[niveau - 1]);
+		int base_PM_MAX = list[3 * (numero_familier - 1) + 2].equals("") ? pm_normal[niveau - 1] : (list[3 * (numero_familier - 1) + 2].equals("-") ? pm_moins[niveau - 1]: pm_plus[niveau - 1]);
+		if (version != 0) {
+			return base_PM_MAX + bonus_PM[version - 1];
+		}
+		return base_PM_MAX;
 	}
 	
 	public int get_attaque() {
 		int niveau = get_niveau();
-		return list[3 * (numero_familier - 1)].equals("") ? attaque_normal[niveau - 1] : (list[3 * (numero_familier - 1)].equals("-") ? attaque_moins[niveau - 1]: attaque_plus[niveau - 1]);
+		int base_attaque = list[3 * (numero_familier - 1)].equals("") ? attaque_normal[niveau - 1] : (list[3 * (numero_familier - 1)].equals("-") ? attaque_moins[niveau - 1]: attaque_plus[niveau - 1]);
+		if (version != 0) {
+			return base_attaque + bonus_attaque[version - 1];
+		}
+		return base_attaque;
 	}
 	
 	public String getstats() {

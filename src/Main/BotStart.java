@@ -57,13 +57,13 @@ public class BotStart {
         	try {
 				ResultSet res = req.request("SELECT * FROM Familiers");
 				while (res.next()) {
-					System.out.println(res.getString("id_server") + ", " + res.getString("id_member"));
-					
 					String result = healer.heal(res);
+					req.update(result);
 					System.out.println(result);
 				}
 				res.close();
 			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
 			}
         };
         executor.scheduleWithFixedDelay(task, 0, 1, TimeUnit.HOURS);

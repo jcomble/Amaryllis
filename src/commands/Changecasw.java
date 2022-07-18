@@ -2,6 +2,7 @@ package commands;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import Main.SQLRequest;
 import net.dv8tion.jda.api.entities.Guild;
@@ -53,5 +54,6 @@ public class Changecasw implements DiscordCommands {
 			req.update("UPDATE Carte SET code_ami = '" + CA + "' WHERE id_server = " + guild.getId().toString() + " AND id_member = " + user.getId().toString() + ";");
 		} catch (SQLException e) {
 		}
+		channel.sendMessage("Votre code ami a été changé!").queue(msg -> msg.delete().queueAfter(5, TimeUnit.SECONDS));
 	}
 }

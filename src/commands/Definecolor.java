@@ -3,6 +3,7 @@ package commands;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.concurrent.TimeUnit;
 
 import Main.SQLRequest;
 import net.dv8tion.jda.api.Permission;
@@ -83,7 +84,7 @@ public class Definecolor implements DiscordCommands {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				channel.sendMessageFormat("La couleur a été mis à jour!").queue();
+				channel.sendMessage("La couleur a été mis à jour!").queue(msg -> msg.delete().queueAfter(5, TimeUnit.SECONDS));
 			}
 		);
 	}

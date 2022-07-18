@@ -3,6 +3,7 @@ package commands;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import Main.SQLRequest;
 import net.dv8tion.jda.api.entities.Guild;
@@ -64,7 +65,7 @@ public class Changefamilier implements DiscordCommands {
 			}
 			message.delete().queue();
 			req.update("UPDATE Carte SET numero_familier = '" + String.valueOf(int_number) + "' WHERE id_server = " + guild.getId().toString() + " AND id_member = " + user.getId().toString() + ";");
-			channel.sendMessageFormat("Vous avez changé de familier!").queue();
+			channel.sendMessage("Vous avez changé de familier!").queue(msg -> msg.delete().queueAfter(5, TimeUnit.SECONDS));
 		} catch (ClassNotFoundException | SQLException e) {
 			return;
 		}

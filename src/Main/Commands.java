@@ -4,8 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.annotation.Nonnull;
-
 import commands.Changecasw;
 import commands.Changefamilier;
 import commands.Changefetiche;
@@ -18,6 +16,7 @@ import commands.Help;
 import commands.Inventory;
 import commands.Me;
 import commands.Renamemaster;
+import commands.Test;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -25,6 +24,7 @@ import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.entities.emoji.Emoji.Type;
+import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -159,6 +159,10 @@ public class Commands extends ListenerAdapter {
 		        	Changefamilier changefamilier_command = new Changefamilier(prefix, channel, args, req, user, guild, message);
 		        	changefamilier_command.build();
 		        	return;
+		        case "test":
+		        	Test test_command = new Test(prefix, couleur, channel, args, message);
+		        	test_command.build();
+		        	return;
 	        }
         } catch (ClassNotFoundException | SQLException e) {
         	e.printStackTrace();
@@ -178,7 +182,7 @@ public class Commands extends ListenerAdapter {
 		return false;
 	}
 	@Override
-	public void onMessageReactionAdd(@Nonnull MessageReactionAddEvent event) {
+	public void onMessageReactionAdd(MessageReactionAddEvent event) {
 		User user = event.getUser();
 		Guild guild = event.getGuild();
 		if (user.isBot()) {
@@ -202,4 +206,9 @@ public class Commands extends ListenerAdapter {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+    public void onReady(ReadyEvent event) {
+    }
+	
 }

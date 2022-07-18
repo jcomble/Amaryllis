@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.security.auth.login.LoginException;
 
@@ -30,7 +33,7 @@ public class BotStart {
     public static void main(String[] args) throws LoginException, ClassNotFoundException, SQLException {
     	SQLRequest req = new SQLRequest();
     	String token = readString("src/Main/token.txt");
-        JDABuilder.createLight(token, GatewayIntent.DIRECT_MESSAGE_REACTIONS,
+    	JDABuilder jda = JDABuilder.createLight(token, GatewayIntent.DIRECT_MESSAGE_REACTIONS,
         		GatewayIntent.DIRECT_MESSAGE_TYPING,
         		GatewayIntent.DIRECT_MESSAGES,
         		GatewayIntent.GUILD_BANS,
@@ -43,9 +46,14 @@ public class BotStart {
         		GatewayIntent.GUILD_PRESENCES,
         		GatewayIntent.GUILD_VOICE_STATES,
         		GatewayIntent.GUILD_WEBHOOKS
-        	)
-            .addEventListeners(new Commands(req))
+        	);
+    	jda.addEventListeners(new Commands(req))
             .setActivity(Activity.playing("Yamete Kudasai!"))
             .build();
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        Runnable task = () -> {
+        	System.out.println("This is the Monado Power");
+        };
+        executor.scheduleWithFixedDelay(task, 0, 1, TimeUnit.HOURS);
     }
 }

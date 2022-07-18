@@ -3,6 +3,7 @@ package commands;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.concurrent.TimeUnit;
 
 import Main.SQLRequest;
 import net.dv8tion.jda.api.Permission;
@@ -54,7 +55,7 @@ public class Defineprefix implements DiscordCommands {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				channel.sendMessageFormat("Le préfixe de ce serveur est `" + prefix + "` désormais").queue();
+				channel.sendMessage("Le préfixe de ce serveur est `" + prefix + "` désormais").queue(msg -> msg.delete().queueAfter(5, TimeUnit.SECONDS));
 			}
 		);
 	}

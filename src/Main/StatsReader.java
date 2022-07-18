@@ -92,4 +92,5 @@ public class StatsReader {
 		int PM_MAX = get_PM_MAX();
 		return "niv. " + String.valueOf(niveau) + "\n" + String.valueOf(this.pv) + "/" + String.valueOf(PV_MAX) + " PV\n" + String.valueOf(this.pm) +"/" + String.valueOf(PM_MAX) + " PM";
 	}
+	
 }

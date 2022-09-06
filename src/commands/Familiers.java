@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import Main.CommandParameters;
 import Main.FamiliersEmojis;
 import Main.SQLRequest;
 import Main.StatsReader;
@@ -25,16 +26,16 @@ public class Familiers implements DiscordCommands {
 	private char prefix;
 	private int couleur;
 	
-	public Familiers(char prefix, int couleur, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message, FamiliersEmojis emojis) {
-		this.couleur = couleur;
-		this.prefix = prefix;
-		this.channel = channel;
-		this.args = args;
-		this.req = req;
-		this.user = user;
-		this.guild = guild;
-		this.message = message;
-		this.emojis = emojis;
+	public Familiers(CommandParameters params) {
+		this.couleur = params.getCouleur();
+		this.prefix = params.getPrefix();
+		this.channel = params.getChannel();
+		this.args = params.getArgs();
+		this.req = params.getReq();
+		this.user = params.getUser();
+		this.guild = params.getGuild();
+		this.message = params.getMessage();
+		this.emojis = params.getEmojis();
 	}
 	
 	public void build() {

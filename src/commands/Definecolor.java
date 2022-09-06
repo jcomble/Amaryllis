@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.concurrent.TimeUnit;
 
+import Main.CommandParameters;
 import Main.SQLRequest;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -21,14 +22,14 @@ public class Definecolor implements DiscordCommands {
 	private Message message;
 	private char prefix;
 	
-	public Definecolor(char prefix, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message) {
-		this.prefix = prefix;
-		this.channel = channel;
-		this.args = args;
-		this.req = req;
-		this.user = user;
-		this.guild = guild;
-		this.message = message;
+	public Definecolor(CommandParameters params) {
+		this.prefix = params.getPrefix();
+		this.channel = params.getChannel();
+		this.args = params.getArgs();
+		this.req = params.getReq();
+		this.user = params.getUser();
+		this.guild = params.getGuild();
+		this.message = params.getMessage();
 	}
 	
 	private boolean hexadecimal_representation(String word) {

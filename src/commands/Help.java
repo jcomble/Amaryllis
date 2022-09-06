@@ -2,6 +2,7 @@ package commands;
 
 import java.util.ArrayList;
 
+import Main.CommandParameters;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -13,12 +14,12 @@ public class Help implements DiscordCommands {
 	private char prefix;
 	private int couleur;
 	
-	public Help(char prefix, int couleur, MessageChannel channel, ArrayList<String> args, Message message) {
-		this.couleur = couleur;
-		this.prefix = prefix;
-		this.channel = channel;
-		this.args = args;
-		this.message = message;
+	public Help(CommandParameters params) {
+		this.couleur = params.getCouleur();
+		this.prefix = params.getPrefix();
+		this.channel = params.getChannel();
+		this.args = params.getArgs();
+		this.message = params.getMessage();
 	}
 	
 	public void build() {

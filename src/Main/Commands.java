@@ -1,5 +1,8 @@
 package Main;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,6 +20,7 @@ import commands.Inventory;
 import commands.Me;
 import commands.Renamemaster;
 import commands.Test;
+import commands.Use;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -106,63 +110,41 @@ public class Commands extends ListenerAdapter {
 	        if (args.size() == 0 || args.get(0).charAt(0) != prefix) {
 	        	return;
 	        }
-	        String suffixe = args.get(0).substring(1);
-	        switch (suffixe) {
-		        case "ping":
-		            channel.sendMessage("chocho!").queue();
-		            return;
-		        case "me":
-					Me me_command = new Me(prefix, couleur, channel, args, req, user, guild, message, emojis);
-					me_command.build();
-		        	return;
-		        case "renamemaster":
-					Renamemaster renamemaster_command = new Renamemaster(prefix, channel, args, req, user, guild, message);
-					renamemaster_command.build();
-		        	return;
-		        case "changefetiche":
-					Changefetiche changefetiche_command = new Changefetiche(prefix, channel, args, req, user, guild, message);
-					changefetiche_command.build();
-		        	return;
-		        case "changepseudosw":
-					Changepseudosw changepseudosw_command = new Changepseudosw(prefix, channel, args, req, user, guild, message);
-					changepseudosw_command.build();
-		        	return;
-		        case "changecasw":
-					Changecasw changecasw_command = new Changecasw(prefix, channel, args, req, user, guild, message);
-					changecasw_command.build();
-		        	return;
-		        case "changeurlmaster":
-					Changeurlmaster changeurlmaster_command = new Changeurlmaster(prefix, channel, args, req, user, guild, message);
-					changeurlmaster_command.build();
-		        	return;
-		        case "inventory":
-					Inventory inventory_command = new Inventory(prefix, couleur, channel, args, req, user, guild, message);
-					inventory_command.build();
-		        	return;
-		        case "familiers":
-					Familiers familiers_command = new Familiers(prefix, couleur, channel, args, req, user, guild, message, emojis);
-					familiers_command.build();
-		        	return;
-		        case "help":
-		        	Help help = new Help(prefix, couleur, channel, args, message);
-		        	help.build();
-		        	return;
-		        case "defineprefix":
-					Defineprefix defineprefix_command = new Defineprefix(prefix, channel, args, req, user, guild, message);
-					defineprefix_command.build();
-		        	return;
-		        case "definecolor":
-		        	Definecolor definecolor_command = new Definecolor(prefix, channel, args, req, user, guild, message);
-		        	definecolor_command.build();
-		        	return;
-		        case "changefamilier":
-		        	Changefamilier changefamilier_command = new Changefamilier(prefix, channel, args, req, user, guild, message);
-		        	changefamilier_command.build();
-		        	return;
-		        case "test":
-		        	Test test_command = new Test(prefix, couleur, channel, args, message);
-		        	test_command.build();
-		        	return;
+	        String suffixe = args.get(0).substring(1).toLowerCase();
+	        CommandParameters params = new CommandParameters(channel, args, req, user, guild, message, emojis, prefix, couleur);
+	        Class<?>[] list = {
+	        				Me.class,
+	        				Renamemaster.class,
+	        				Changefetiche.class,
+	        				Renamemaster.class,
+	        				Changefetiche.class,
+	        				Changepseudosw.class,
+	        				Changecasw.class,
+	        				Changeurlmaster.class,
+	        				Inventory.class,
+	        				Familiers.class,
+	        				Help.class,
+	        				Defineprefix.class,
+	        				Definecolor.class,
+	        				Changefamilier.class,
+	        				Test.class,
+	        				Use.class,
+	        				};
+	        ArrayList<String> list_name = new ArrayList<String>();
+	        for (Class<?> classe : list) {
+	        	list_name.add(classe.getSimpleName().toLowerCase());
+	        }
+	        if (list_name.contains(suffixe)) {
+	        	try {
+					Constructor<?> constructeur = list[list_name.indexOf(suffixe)].getConstructor(CommandParameters.class);
+					Object me_command = constructeur.newInstance(params);
+					Method method = me_command.getClass().getMethod("build", (Class<?>[]) null);
+					method.invoke(me_command);
+				} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException e) {
+					e.printStackTrace();
+				}
+	        	return;
 	        }
         } catch (ClassNotFoundException | SQLException e) {
         	e.printStackTrace();

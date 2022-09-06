@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import Main.CommandParameters;
 import Main.SQLRequest;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -21,15 +22,15 @@ public class Inventory implements DiscordCommands {
 	private char prefix;
 	private int couleur;
 	
-	public Inventory(char prefix, int couleur, MessageChannel channel, ArrayList<String> args, SQLRequest req, User user, Guild guild, Message message) {
-		this.couleur = couleur;
-		this.prefix = prefix;
-		this.channel = channel;
-		this.args = args;
-		this.req = req;
-		this.user = user;
-		this.guild = guild;
-		this.message = message;
+	public Inventory(CommandParameters params) {
+		this.couleur = params.getCouleur();
+		this.prefix = params.getPrefix();
+		this.channel = params.getChannel();
+		this.args = params.getArgs();
+		this.req = params.getReq();
+		this.user = params.getUser();
+		this.guild = params.getGuild();
+		this.message = params.getMessage();
 	}
 	
 	public void build() {

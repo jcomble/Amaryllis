@@ -1,24 +1,16 @@
 package commands;
 
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import net.dv8tion.jda.api.entities.Message;
+import Main.CommandParameters;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class Test implements DiscordCommands {
 	private MessageChannel channel;
-	private ArrayList<String> args;
-	private Message message;
-	private char prefix;
-	private int couleur;
+
 	
-	public Test(char prefix, int couleur, MessageChannel channel, ArrayList<String> args, Message message) {
-		this.couleur = couleur;
-		this.prefix = prefix;
-		this.channel = channel;
-		this.args = args;
-		this.message = message;
+	public Test(CommandParameters params) {
+		this.channel = params.getChannel();
 	}
 	
 	private void method_test() {
